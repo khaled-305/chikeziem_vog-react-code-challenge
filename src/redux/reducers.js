@@ -14,12 +14,15 @@ import {
     GET_UNIVERSITIES_FAIL,
     GET_COUNTRIES_SUCCESS,
     GET_COUNTRIES_FAIL,
+    GET_POSTALLOOKUP_SUCCESS,
+    GET_POSTALLOOKUP_FAIL
 } from './types';
 
 const initialState = {
     posts: [],
     universities: [],
-    countries: []
+    countries: [],
+    postal: {}
 };
 
 const postsReducer = (state = initialState, action) => {
@@ -100,11 +103,31 @@ const countryReducer = (state = initialState, action) => {
     }
 }
 
+const postalReducer = (state = initialState, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case GET_POSTALLOOKUP_SUCCESS:
+            return {
+                ...state,
+                postal: payload
+            }
+        case GET_POSTALLOOKUP_FAIL:
+            return {
+                ...state,
+                postal: {}
+            }
+        default:
+            return state;
+    }
+}
+
 // COMBINED REDUCERS
 const reducers = {
     posts: postsReducer,
     universities: universitiesReducer,
-    countries: countryReducer
+    countries: countryReducer,
+    postal: postalReducer
 }
 
 export default combineReducers(reducers);

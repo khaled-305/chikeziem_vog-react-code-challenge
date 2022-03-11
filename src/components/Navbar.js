@@ -21,7 +21,7 @@ export default function Navbar() {
                     </Button>
 
                     <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                        Postal lookup
+                        <Link to="/postallookup">  Postal lookup </Link>
                     </Button>
 
                 </Toolbar>

@@ -13,6 +13,8 @@ import {
     GET_UNIVERSITIES_FAIL,
     GET_COUNTRIES_SUCCESS,
     GET_COUNTRIES_FAIL,
+    GET_POSTALLOOKUP_SUCCESS,
+    GET_POSTALLOOKUP_FAIL
 } from "./types";
 
 
@@ -227,3 +229,29 @@ export const get_countries = () => async dispatch => {
         });
     }
 };
+
+
+// Postal LookUp
+export const postal_lookup = (code) => async dispatch => {
+
+    try {
+        const res = await fetch(`https://api.zippopotam.us/us/${code}`);
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            dispatch({
+                type: GET_POSTALLOOKUP_SUCCESS,
+                payload: data
+            });
+        } else {
+            dispatch({
+                type: GET_POSTALLOOKUP_FAIL
+            });
+        }
+    } catch (err) {
+        dispatch({
+            type: GET_POSTALLOOKUP_FAIL
+        });
+    }
+}
