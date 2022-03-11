@@ -9,6 +9,12 @@ import {
     UPDATE_POST_FAIL,
     DELETE_POST_SUCCESS,
     DELETE_POST_FAIL,
+    GET_UNIVERSITIES_SUCCESS,
+    GET_UNIVERSITIES_FAIL,
+    GET_COUNTRIES_SUCCESS,
+    GET_COUNTRIES_FAIL,
+    GET_POSTALLOOKUP_SUCCESS,
+    GET_POSTALLOOKUP_FAIL
 } from "./types";
 
 
@@ -162,6 +168,90 @@ export const delete_post = (id) => async dispatch => {
     } catch (err) {
         dispatch({
             type: DELETE_POST_FAIL
+        });
+    }
+}
+
+// Get All Universities
+export const get_universities = () => async dispatch => {
+    try {
+        const res = await fetch('http://universities.hipolabs.com/search?country=Canada', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            dispatch({
+                type: GET_UNIVERSITIES_SUCCESS,
+                payload: data
+            });
+        } else {
+            dispatch({
+                type: GET_UNIVERSITIES_FAIL
+            });
+        }
+    } catch (err) {
+        dispatch({
+            type: GET_UNIVERSITIES_FAIL
+        });
+    }
+};
+
+// Get Countries
+export const get_countries = () => async dispatch => {
+    try {
+        const res = await fetch(process.env.COUNTRYLAYER_API, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            dispatch({
+                type: GET_COUNTRIES_SUCCESS,
+                payload: data
+            });
+        } else {
+            dispatch({
+                type: GET_COUNTRIES_FAIL
+            });
+        }
+    } catch (err) {
+        dispatch({
+            type: GET_COUNTRIES_FAIL
+        });
+    }
+};
+
+
+// Postal LookUp
+export const postal_lookup = (code) => async dispatch => {
+
+    try {
+        const res = await fetch(`https://api.zippopotam.us/us/${code}`);
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            dispatch({
+                type: GET_POSTALLOOKUP_SUCCESS,
+                payload: data
+            });
+        } else {
+            dispatch({
+                type: GET_POSTALLOOKUP_FAIL
+            });
+        }
+    } catch (err) {
+        dispatch({
+            type: GET_POSTALLOOKUP_FAIL
         });
     }
 }
