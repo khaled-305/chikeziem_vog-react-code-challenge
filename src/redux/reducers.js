@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { 
+import {
     GET_POSTS_SUCCESS,
     GET_POSTS_FAIL,
     ADD_POST_SUCCESS,
@@ -10,16 +10,22 @@ import {
     UPDATE_POST_FAIL,
     DELETE_POST_SUCCESS,
     DELETE_POST_FAIL,
+    GET_UNIVERSITIES_SUCCESS,
+    GET_UNIVERSITIES_FAIL,
+    GET_COUNTRIES_SUCCESS,
+    GET_COUNTRIES_FAIL,
 } from './types';
 
 const initialState = {
-    posts: []
+    posts: [],
+    universities: [],
+    countries: []
 };
 
 const postsReducer = (state = initialState, action) => {
     const { type, payload } = action;
 
-    switch(type) {
+    switch (type) {
         case GET_POSTS_SUCCESS:
             return {
                 ...state,
@@ -55,9 +61,50 @@ const postsReducer = (state = initialState, action) => {
     }
 }
 
+const universitiesReducer = (state = initialState, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case GET_UNIVERSITIES_SUCCESS:
+            return {
+                ...state,
+                universities: payload
+            }
+        case GET_UNIVERSITIES_FAIL:
+            return {
+                ...state,
+                universities: []
+            }
+        default:
+            return state;
+    }
+}
+
+
+const countryReducer = (state = initialState, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case GET_COUNTRIES_SUCCESS:
+            return {
+                ...state,
+                countries: payload
+            }
+        case GET_COUNTRIES_FAIL:
+            return {
+                ...state,
+                countries: []
+            }
+        default:
+            return state;
+    }
+}
+
 // COMBINED REDUCERS
 const reducers = {
     posts: postsReducer,
+    universities: universitiesReducer,
+    countries: countryReducer
 }
 
 export default combineReducers(reducers);
